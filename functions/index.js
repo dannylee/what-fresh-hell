@@ -11,7 +11,7 @@ const admin = require('firebase-admin');
 
 if (debug){
     // Fetch the service account key JSON file contents
-    var serviceAccount = require("./what-fresh-hell-firebase-adminsdk-ozhpf-51d009745a.json");
+    var serviceAccount = require("./credentials/what-fresh-hell-firebase-adminsdk-ozhpf-51d009745a.json");
 
     // Initialize the app with a custom auth variable, limiting the server's access
     admin.initializeApp({
