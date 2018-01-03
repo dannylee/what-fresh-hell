@@ -1,6 +1,6 @@
 'use strict';
 
-var debug = true;
+var debug = false;
 
 process.env.DEBUG = 'actions-on-google:*';
 const App = require('actions-on-google').DialogflowApp;
@@ -104,9 +104,11 @@ exports.addMessage = functions.https.onRequest((req, res) => {
 
 
 
+/*
 twitterHandle = "Trump";
 getLatestTweetFrom(twitterHandle).then(function(result){
     console.log("Success: " + result);
 }, function(err){
     console.log("Failed: " + err);
 });
+*/
