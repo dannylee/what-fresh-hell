@@ -50,16 +50,16 @@ var getLatestTweetFrom = function(twitterHandle){
             let speechOutput = '';
 
 
-            var latestTweet = admin.database().ref('/messages').limitToLast(1).once('value').then(function(snapshot) {
+            var latestTweet = admin.database().ref('/messages_' + twitterHandle.toLowerCase()).limitToLast(1).once('value').then(function(snapshot) {
                 var messages = snapshotToArray(snapshot);
-                var speechOutput = (messages.length > 0)? messages[0].original: "No tweets today";
+                var speechOutput = (messages.length > 0)? `Here's the latest Tweet from ${twitterHandle}. "${messages[0].original}"`: `Sorry, no tweets lately from ${twitterHandle}.`;
                 resolve(speechOutput);
             });
 
             
         }
         catch (error){
-            reject(Error("Sorry, there was a problem."));
+            reject(Error("Oops! I have a malfunction. Please inform Danny Lee."));
         }
 
     });
@@ -84,6 +84,8 @@ exports.getFreshHell = functions.https.onRequest((request, response) => {
     actionMap.set("LatestTweet", getLatestTweet);
 
 
+
+
     app.handleRequest(actionMap);
 });
 
@@ -94,9 +96,9 @@ exports.addMessage = functions.https.onRequest((req, res) => {
     // Grab the text parameter.
     const original = req.query.text;
     const created = req.query.created;
-    const username = req.query.username;
+    const username = req.query.username.toLowerCase();
     // Push the new message into the Realtime Database using the Firebase Admin SDK.
-    admin.database().ref('/messages').push({original: original, created: created, username: username}).then(snapshot => {
+    admin.database().ref('/messages_' + username).push({original: original, created: created, username: username}).then(snapshot => {
       // Redirect with 303 SEE OTHER to the URL of the pushed object in the Firebase console.
       res.send("Success");
     });
